@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace App\Helper;
 
@@ -15,14 +14,12 @@ class CacheHelper implements CacheInterface
     public float $hitCount = 0;
     public float $missCount = 0;
     public int $requestCount = 0;
-
     public $replacment_policy;
 
     public function __construct(int $size, $replacment_policy)
     {
         if ($size < 0) {
             throw new InvalidArgumentException('Cache size must be greater than 0');
-
         }
 
         $this->size = $size;
@@ -35,7 +32,7 @@ class CacheHelper implements CacheInterface
 
         $this->items_size += $item_size;
 
-        while($this->size < $this->items_size) {
+        while ($this->size < $this->items_size) {
             $this->replacementPolicies();
         }
 
@@ -43,7 +40,6 @@ class CacheHelper implements CacheInterface
         if (isset($this->items[$key])) {
             $old = $this->items[$key];
             $oldSize = strlen(base64_decode($old));
-
             $this->items[$key] = $item_encode;
             $this->moveToFront($key);
 
@@ -55,6 +51,15 @@ class CacheHelper implements CacheInterface
         $this->items[$key] = $item_encode;
     }
 
+    private function encodeImage($item)
+    {
+        $path = public_path('uploads/' . $item);
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        return $base64;
+    }
+
     public function get($key)
     {
         if (false === isset($this->items[$key])) {
@@ -64,15 +69,6 @@ class CacheHelper implements CacheInterface
         $this->moveToFront($key);
 
         return $this->items[$key];
-    }
-
-    private function encodeImage($item)
-    {
-        $path = public_path('uploads/'.$item);
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-        return $base64;
     }
 
     private function moveToFront(string $key): void
@@ -89,30 +85,26 @@ class CacheHelper implements CacheInterface
         switch ($this->replacment_policy) {
             case 'least recently used':
                 reset($this->items);
-
-                $oldItem = $this->items[key($this->items)];
-                $oldItemSize = strlen(base64_decode($oldItem));
-                $this->items_size -= $oldItemSize;
-
-                unset($this->items[key($this->items)]);
-
+                $this->removeItems(key($this->items));
                 break;
 
             case 'random replacement':
                 $replacment_key = array_rand($this->items);
-
-                $oldItem = $this->items[$replacment_key];
-                $oldItemSize = strlen(base64_decode($oldItem));
-                $this->items_size -= $oldItemSize;
-
-                unset($this->items[$replacment_key]);
-
+                $this->removeItems($replacment_key);
                 break;
 
             default:
                 # code...
                 break;
         }
+    }
+
+    private function removeItems($key)
+    {
+        $oldItem = $this->items[$key];
+        $oldItemSize = strlen(base64_decode($oldItem));
+        $this->items_size -= $oldItemSize;
+        unset($oldItem);
     }
 
     public function clearCache()
