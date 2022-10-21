@@ -7,7 +7,6 @@ use App\Models\Attachment;
 use App\Models\CacheConfig;
 use App\Models\Policy;
 use App\Models\Statistics;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -21,11 +20,10 @@ class HomeController extends Controller
     {
         $configration = CacheConfig::latest('id')->first();
 
-        if($configration) {
+        if ($configration) {
             $this->capacity = $configration->capacity;
             $this->replacment_policy_name = $configration->policy->policy_name;
             $this->cache = new CacheHelper((int) $this->capacity, $this->replacment_policy_name);
-
         } else {
             $this->capacity = 1000000;
             $this->replacment_policy_name = 'least recently used';
@@ -50,11 +48,11 @@ class HomeController extends Controller
 
         $attachment = Attachment::wherekey($request->key)->first();
 
-        // attachment exists in db
+        // attachment exists in DB
         if ($attachment) {
             $uploaded = null;
             if ($request->file('value')) {
-                if ($attachment->value != null && File::exists('uploads/' . $attachment->value)) { //check if in data base has a value and the local file has the same value يعني في قيمة قدية في الداتا بيز
+                if ($attachment->value != null && File::exists('uploads/' . $attachment->value)) {
                     unlink('uploads/' . $attachment->value);
                 }
                 $uploaded = $this->uploadImage($request);
@@ -97,7 +95,6 @@ class HomeController extends Controller
             'image_name' => $image_name,
             'size'       => $size,
         ];
-
     }
 
 
@@ -162,8 +159,7 @@ class HomeController extends Controller
         $cachedItem = session()->get('cache');
 
         $cachedItem->size = $newConfigration->capacity;
-        $this->replacment_policy = Policy::find($newConfigration->policy_id);
-        $cachedItem->replacment_policy = $this->replacment_policy->policy_name;
+        $cachedItem->replacment_policy = $this->replacment_policy_name;
         session()->put('cache', $cachedItem);
 
         return redirect()->route('cache-config');
@@ -173,7 +169,6 @@ class HomeController extends Controller
     public function cacheStatus()
     {
         $cachedItem = Statistics::latest('id')->where('check_time', true)->first();
-        // dd($cachedItem);
         return view('backend.statistics', [
             'num_items' => $cachedItem ? $cachedItem->num_items : 0,
             'hit_rate'  => $cachedItem ? $cachedItem->hit_rate : 0,
@@ -181,7 +176,6 @@ class HomeController extends Controller
             'current_capacity' => $cachedItem ? $cachedItem->current_capacity : 0,
             'replacment_policy' => $this->replacment_policy_name,
         ]);
-
     }
 
     public function storeCacheStatus()
@@ -194,9 +188,6 @@ class HomeController extends Controller
             'miss_rate'  => $cachedItem->missRate(),
             'hit_rate'  => $cachedItem->hitRate(),
         ]);
-
-        dd($statiscts);
-
         return $statiscts;
     }
 

@@ -1,9 +1,6 @@
 <?php
 
-use App\Models\Statistics;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -33,6 +30,5 @@ Route::post('cache-status', [HomeController::class, 'storeCacheStatus'])->name('
 Route::get('cache-clear', [HomeController::class, 'clearCache'])->name('clearCache');
 
 Route::get('/', function () {
-    dd(session()->get('cache'));
     return view('welcome');
 });
