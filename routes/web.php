@@ -1,9 +1,6 @@
 <?php
 
-use App\Models\Statistics;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -16,8 +13,8 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('index',[HomeController::class,'index'])->name('index');
-Route::post('index',[HomeController::class,'storeImage'])->name('storeImage');
+Route::get('/',[HomeController::class,'index'])->name('index');
+Route::post('/',[HomeController::class,'storeImage'])->name('storeImage');
 
 Route::get('image',[HomeController::class,'image'])->name('image');
 Route::post('image', [HomeController::class, 'getImage'])->name('showImage');
@@ -32,7 +29,4 @@ Route::post('cache-status', [HomeController::class, 'storeCacheStatus'])->name('
 
 Route::get('cache-clear', [HomeController::class, 'clearCache'])->name('clearCache');
 
-Route::get('/', function () {
-    dd(session()->get('cache'));
-    return view('welcome');
-});
+

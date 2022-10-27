@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedInteger('requests_number');
             $table->unsignedFloat('miss_rate');
             $table->unsignedFloat('hit_rate');
-            $table->boolean('check_time')->default(false);
             $table->timestamps();
         });
     }
