@@ -20,11 +20,10 @@ class HomeController extends Controller
     {
         $configration = CacheConfig::latest('id')->first();
 
-        if($configration) {
+        if ($configration) {
             $this->capacity = $configration->capacity;
             $this->replacment_policy_name = $configration->policy->policy_name;
             $this->cache = new CacheHelper((int) $this->capacity, $this->replacment_policy_name);
-
         } else {
             $this->capacity = 1000000;
             $this->replacment_policy_name = 'least recently used';
@@ -49,7 +48,7 @@ class HomeController extends Controller
 
         $attachment = Attachment::wherekey($request->key)->first();
 
-        // attachment exists in db
+        // attachment exists in DB
         if ($attachment) {
             $uploaded = null;
             if ($request->file('value')) {
@@ -96,7 +95,6 @@ class HomeController extends Controller
             'image_name' => $image_name,
             'size'       => $size,
         ];
-
     }
 
 
@@ -161,8 +159,7 @@ class HomeController extends Controller
         $cachedItem = session()->get('cache');
 
         $cachedItem->size = $newConfigration->capacity;
-        $this->replacment_policy = Policy::find($newConfigration->policy_id);
-        $cachedItem->replacment_policy = $this->replacment_policy->policy_name;
+        $cachedItem->replacment_policy = $this->replacment_policy_name;
         session()->put('cache', $cachedItem);
 
         return redirect()->route('cache-config');
@@ -171,12 +168,15 @@ class HomeController extends Controller
 
     public function cacheStatus()
     {
+<<<<<<< HEAD
         $cachedItem = Statistics::whereBetween('created_at', [now()->subMinutes(10), now()])->latest('id')->paginate();
+=======
+        $cachedItem = Statistics::latest('id')->where('check_time', true)->first();
+>>>>>>> 65646f8e5aed36dd350af67cb88f52248a3f4263
         return view('backend.statistics', [
             'cachedItem' => $cachedItem,
             'replacment_policy' => $this->replacment_policy_name,
         ]);
-
     }
 
     public function storeCacheStatus()

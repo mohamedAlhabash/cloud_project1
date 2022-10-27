@@ -29,4 +29,10 @@ Route::post('cache-status', [HomeController::class, 'storeCacheStatus'])->name('
 
 Route::get('cache-clear', [HomeController::class, 'clearCache'])->name('clearCache');
 
+<<<<<<< HEAD
 
+=======
+Route::get('/', function () {
+    return view('welcome');
+});
+>>>>>>> 65646f8e5aed36dd350af67cb88f52248a3f4263
