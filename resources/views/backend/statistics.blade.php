@@ -1,65 +1,49 @@
 @extends('backend.layouts.app')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 @section('content')
     <!-- Start statistics  -->
-    <section class="statistics container">
         <div class="card">
-
-            {{-- <div class="items">
-                <span>Number Of Items In Cache : {{ $num_items }} </span>
-            </div> --}}
-
-            <div class="stats">
-                <div class="stats-box">
-                    <div class="stats-name">
-                        <div class=""></div> Number Of Items In Cache :
-                    </div>
-                    <div class="stats-progress">
-                        <span>{{ $num_items}}</span>
-                    </div>
-                </div>
-                <hr>
-                <div class="stats-box">
-                    <div class="stats-name">
-                        <div class=""></div> Replacement policy :
-                    </div>
-                    <div class="" style="height: 30px">
-                        <span>{{ $replacment_policy }}</span>
-                    </div>
-                </div>
-                <hr>
-
-                <div class="stats-box">
-                    <div class="stats-name">
-                        <div class=""></div> Hit Rate:
-                    </div>
-                    <div class="stats-progress">
-                        <span>{{ round($hit_rate) }}%</span>
-                    </div>
-                </div>
-                <hr>
-
-                <div class="stats-box">
-                    <div class="stats-name">
-                        <div class=""></div> Miss Rate:
-                    </div>
-                    <div class="stats-progress">
-                        <span>{{ round($miss_rate) }}%</span>
-                    </div>
-                </div>
-                <hr>
-
-                <div class="stats-box">
-                    <div class="stats-name">
-                        <div class=""></div> Items size in the cache:
-                    </div>
-                    <div class="stats-progress">
-                        <span>{{ number_format($current_capacity / 1000000, 2) }}Mb</span>
-                    </div>
-                </div>
-
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Num items</th>
+                            <th>Hit rate</th>
+                            <th>Miss rate</th>
+                            <th>Current capacity</th>
+                            <th>Replcment policy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($cachedItem as $recored)
+                            <tr>
+                                <td>{{$recored->num_items}}</td>
+                                <td>{{round($recored->hit_rate)}}</td>
+                                <td>{{round($recored->miss_rate)}}</td>
+                                <td>{{number_format($recored->current_capacity / 1000000, 2) }}Mb</td>
+                                <td>{{$replacment_policy}}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center"></td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <div class="float-right">
+                                    {{$cachedItem->links()}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-
         </div>
-    </section>
+        </div>
     <!-- End statistics  -->
+@stop
+
+@section('script')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
 @stop

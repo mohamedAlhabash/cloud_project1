@@ -13,8 +13,8 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('index',[HomeController::class,'index'])->name('index');
-Route::post('index',[HomeController::class,'storeImage'])->name('storeImage');
+Route::get('/',[HomeController::class,'index'])->name('index');
+Route::post('/',[HomeController::class,'storeImage'])->name('storeImage');
 
 Route::get('image',[HomeController::class,'image'])->name('image');
 Route::post('image', [HomeController::class, 'getImage'])->name('showImage');
@@ -29,6 +29,10 @@ Route::post('cache-status', [HomeController::class, 'storeCacheStatus'])->name('
 
 Route::get('cache-clear', [HomeController::class, 'clearCache'])->name('clearCache');
 
+<<<<<<< HEAD
+
+=======
 Route::get('/', function () {
     return view('welcome');
 });
+>>>>>>> 65646f8e5aed36dd350af67cb88f52248a3f4263

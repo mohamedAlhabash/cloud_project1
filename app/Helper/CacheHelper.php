@@ -110,8 +110,8 @@ class CacheHelper implements CacheInterface
 
     public function clearCache()
     {
-        $this->items_size = 0;
-        $this->replacment_policy = null;
+        $this->items_size = 0; //1
+        $this->replacment_policy = null; //2
         $this->size = 0;
         $this->hitCount = 0;
         $this->missCount = 0;

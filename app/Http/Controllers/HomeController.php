@@ -168,12 +168,13 @@ class HomeController extends Controller
 
     public function cacheStatus()
     {
+<<<<<<< HEAD
+        $cachedItem = Statistics::whereBetween('created_at', [now()->subMinutes(10), now()])->latest('id')->paginate();
+=======
         $cachedItem = Statistics::latest('id')->where('check_time', true)->first();
+>>>>>>> 65646f8e5aed36dd350af67cb88f52248a3f4263
         return view('backend.statistics', [
-            'num_items' => $cachedItem ? $cachedItem->num_items : 0,
-            'hit_rate'  => $cachedItem ? $cachedItem->hit_rate : 0,
-            'miss_rate'  => $cachedItem ? $cachedItem->miss_rate : 0,
-            'current_capacity' => $cachedItem ? $cachedItem->current_capacity : 0,
+            'cachedItem' => $cachedItem,
             'replacment_policy' => $this->replacment_policy_name,
         ]);
     }

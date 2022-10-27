@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\Http\Controllers\HomeController;
 use App\Models\Statistics;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -17,15 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-
-
         // $schedule->command('inspire')->hourly();
-        $schedule->call(function () {
-            $data = Statistics::latest('id')->first();
-            $data->update([
-                'check_time' => true
-            ]);
-        })->everyTenMinutes();
     }
 
     /**
