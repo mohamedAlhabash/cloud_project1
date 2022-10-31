@@ -17,8 +17,8 @@
                         @forelse ($cachedItem as $recored)
                             <tr>
                                 <td>{{$recored->num_items}}</td>
-                                <td>{{round($recored->hit_rate)}}</td>
-                                <td>{{round($recored->miss_rate)}}</td>
+                                <td>{{round($recored->hit_rate)}}%</td>
+                                <td>{{round($recored->miss_rate)}}%</td>
                                 <td>{{number_format($recored->current_capacity / 1000000, 2) }}Mb</td>
                                 <td>{{$replacment_policy}}</td>
                             </tr>

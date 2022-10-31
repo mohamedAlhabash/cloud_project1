@@ -43,7 +43,6 @@ class CacheHelper implements CacheInterface
             $oldSize = strlen(base64_decode($old));
             $this->items[$key] = $item_encode;
             $this->moveToFront($key);
-
             $this->items_size -= $oldSize;
 
             return;
@@ -81,31 +80,33 @@ class CacheHelper implements CacheInterface
         $this->items[$key] = $cachedItem;
     }
 
-    private function replacementPolicies()
+    public function replacementPolicies()
     {
         switch ($this->replacment_policy) {
             case 'least recently used':
                 reset($this->items);
-                $this->removeItems(key($this->items));
+
+                $oldItem = $this->items[key($this->items)];
+                $oldItemSize = strlen(base64_decode($oldItem));
+                $this->items_size -= $oldItemSize;
+
+                unset($this->items[key($this->items)]);
                 break;
 
             case 'random replacement':
                 $replacment_key = array_rand($this->items);
-                $this->removeItems($replacment_key);
+
+                $oldItem = $this->items[$replacment_key];
+                $oldItemSize = strlen(base64_decode($oldItem));
+                $this->items_size -= $oldItemSize;
+
+                unset($this->items[$replacment_key]);
                 break;
 
             default:
                 # code...
                 break;
         }
-    }
-
-    private function removeItems($key)
-    {
-        $oldItem = $this->items[$key];
-        $oldItemSize = strlen(base64_decode($oldItem));
-        $this->items_size -= $oldItemSize;
-        unset($oldItem);
     }
 
     public function clearCache()

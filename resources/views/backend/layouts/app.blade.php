@@ -32,7 +32,7 @@
     @yield('content')
     <script src="{{ asset('backend/js/main.js') }}"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="{{ asset('build/assets/app.bc944bc9.js') }}"></script>
+    <script src="{{ asset('build/assets/app.afe1e09a.js') }}"></script>
     @yield('script')
 </body>
 

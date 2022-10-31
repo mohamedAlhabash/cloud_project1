@@ -20,8 +20,8 @@
                 </div>
 
                 <div class="capacity">
-                    <label for="range">Capacity Cache:</label>
-                    <input type="number" name="capacity" id="">
+                    <label for="capacity">Capacity Cache:</label>
+                    <input type="text" name="capacity" id="">
                 </div>
                 @error('capacity')
                     <span class="error">{{ $message }}</span>

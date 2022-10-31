@@ -27,6 +27,13 @@
             <img id="imageUploaded" width="550" height="500" src="{{ asset('backend/img/no-image.jpg') }}">
         </div>
     </section>
+    <section>
+        <div>
+            @if ($msg)
+             {{$msg}}
+            @endif
+        </div>
+    </section>
     <!-- End Upload section -->
 @endsection
 @section('script')

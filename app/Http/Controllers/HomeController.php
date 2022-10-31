@@ -36,7 +36,9 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('backend.index');
+        // dd(session()->get('cache'));
+        $msg=null;
+        return view('backend.index',compact('msg'));
     }
 
     public function storeImage(Request $request)
@@ -77,11 +79,18 @@ class HomeController extends Controller
             Attachment::create($input);
 
             //add to cache
+            $msg = null;
             $cachedItem = session()->get('cache');
-            $cachedItem->add($request->key, $uploaded['image_name'], $uploaded['size']);
-            session()->put('cahce', $cachedItem);
+            if($cachedItem->size > $uploaded['size'] ){
+                $cachedItem->add($request->key, $uploaded['image_name'], $uploaded['size']);
+                session()->put('cahce', $cachedItem);
+            } else {
+                $msg = 'size of image greater than cache capacity';
+            }
         }
-        return redirect(route('index'));
+        return redirect()->route('index')->with([
+            'msg' => $msg,
+        ]);
     }
 
     private function uploadImage(Request $request)
@@ -124,8 +133,12 @@ class HomeController extends Controller
             $cachedItem->missCount++;
             $attachment = Attachment::whereKey($request->key)->pluck('value')->first();
             $size = File::size(public_path('uploads/' . $attachment));
-            $cachedItem->add($request->key, $attachment, $size);
-            session()->put('cache', $cachedItem);
+            $cachedItem = session()->get('cache');
+
+            if($cachedItem->size > $size ){
+                $cachedItem->add($request->key, $attachment, $size);
+                session()->put('cache', $cachedItem);
+            }
         }
         return view('backend.images', compact('attachment', 'source'));
     }
@@ -148,7 +161,7 @@ class HomeController extends Controller
     {
         $request->validate([
             'policy_id' => 'required',
-            'capacity' => 'required'
+            'capacity' => 'required|numeric'
         ]);
 
         $newConfigration = CacheConfig::create([
@@ -159,6 +172,9 @@ class HomeController extends Controller
         $cachedItem = session()->get('cache');
 
         $cachedItem->size = $newConfigration->capacity;
+        while($cachedItem->size < $cachedItem->items_size){
+            $cachedItem->replacementPolicies();
+        }
         $cachedItem->replacment_policy = $this->replacment_policy_name;
         session()->put('cache', $cachedItem);
 
@@ -168,11 +184,7 @@ class HomeController extends Controller
 
     public function cacheStatus()
     {
-<<<<<<< HEAD
         $cachedItem = Statistics::whereBetween('created_at', [now()->subMinutes(10), now()])->latest('id')->paginate();
-=======
-        $cachedItem = Statistics::latest('id')->where('check_time', true)->first();
->>>>>>> 65646f8e5aed36dd350af67cb88f52248a3f4263
         return view('backend.statistics', [
             'cachedItem' => $cachedItem,
             'replacment_policy' => $this->replacment_policy_name,
