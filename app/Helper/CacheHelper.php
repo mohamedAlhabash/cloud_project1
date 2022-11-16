@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
+use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
 
 
@@ -54,6 +55,8 @@ class CacheHelper implements CacheInterface
     private function encodeImage($item)
     {
         $path = public_path('uploads/' . $item);
+        // $path = Storage::disk('s3')->response($item);
+        // dd($path);
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $data = file_get_contents($path);
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);

@@ -17,14 +17,15 @@
             </form>
         </div>
         <div class="preview-image">
-            @if($source == 'DB')
+            @if ($source == 'DB')
                 <img width="550" height="550"
                     src="{{ $attachment != null ? asset('uploads/' . $attachment) : asset('backend/img/no-image.jpg') }}">
             @else
-                <img width="550" height="550" src="{{ $attachment != null ? $attachment : asset('backend/img/no-image.jpg') }}">
+                <img width="550" height="550"
+                    src="{{ $attachment != null ? $attachment : asset('backend/img/no-image.jpg') }}">
             @endif
         </div>
-        <div>{{$source}}</div>
+        <div>{{ $source }}</div>
 
 
     </section>

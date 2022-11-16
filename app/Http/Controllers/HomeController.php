@@ -9,6 +9,7 @@ use App\Models\Policy;
 use App\Models\Statistics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -37,8 +38,8 @@ class HomeController extends Controller
     public function index()
     {
         // dd(session()->get('cache'));
-        $msg=null;
-        return view('backend.index',compact('msg'));
+        $msg = null;
+        return view('backend.index', compact('msg'));
     }
 
     public function storeImage(Request $request)
@@ -52,6 +53,7 @@ class HomeController extends Controller
 
         // attachment exists in DB
         if ($attachment) {
+            $msg = null;
             $uploaded = null;
             if ($request->file('value')) {
                 if ($attachment->value != null && File::exists('uploads/' . $attachment->value)) {
@@ -81,7 +83,7 @@ class HomeController extends Controller
             //add to cache
             $msg = null;
             $cachedItem = session()->get('cache');
-            if($cachedItem->size > $uploaded['size'] ){
+            if ($cachedItem->size > $uploaded['size']) {
                 $cachedItem->add($request->key, $uploaded['image_name'], $uploaded['size']);
                 session()->put('cahce', $cachedItem);
             } else {
@@ -100,6 +102,7 @@ class HomeController extends Controller
         $image_name = $request->key . "." . $image->getClientOriginalExtension();
         $size = $image->getSize();
         $image->move(public_path('uploads/'), $image_name);
+        // Storage::disk('s3')->put($image_name, $image);
         return [
             'image_name' => $image_name,
             'size'       => $size,
@@ -126,7 +129,21 @@ class HomeController extends Controller
         $attachment = $cachedItem->get($request->key);
         $cachedItem->requestCount++;
 
+        $size_cache = strlen(base64_decode($attachment));
+        $pos  = strpos($attachment, ';');
+        $type = explode(':', substr($attachment, 0, $pos))[1];
+        $type_cache = explode('/', $type);
+
+        $path1 = Attachment::whereKey($request->key)->pluck('value')->first();
+        $size = File::size(public_path('uploads/' . $path1));
+        $type = pathinfo($path1, PATHINFO_EXTENSION);
+
         if ($attachment) {
+            if ($size != $size_cache || $type_cache[1] != $type) {
+                $cachedItem->add($request->key, $attachment, $size);
+                session()->put('cache', $cachedItem);
+            }
+
             $cachedItem->hitCount++;
             $source = 'Cache';
         } else {
@@ -135,7 +152,7 @@ class HomeController extends Controller
             $size = File::size(public_path('uploads/' . $attachment));
             $cachedItem = session()->get('cache');
 
-            if($cachedItem->size > $size ){
+            if ($cachedItem->size > $size) {
                 $cachedItem->add($request->key, $attachment, $size);
                 session()->put('cache', $cachedItem);
             }
@@ -172,7 +189,7 @@ class HomeController extends Controller
         $cachedItem = session()->get('cache');
 
         $cachedItem->size = $newConfigration->capacity;
-        while($cachedItem->size < $cachedItem->items_size){
+        while ($cachedItem->size < $cachedItem->items_size) {
             $cachedItem->replacementPolicies();
         }
         $cachedItem->replacment_policy = $this->replacment_policy_name;
