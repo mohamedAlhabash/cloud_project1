@@ -1,0 +1,661 @@
+/* Start  Globle Rules */
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+
+  a:focus {
+    outline: none;
+  }
+
+
+  .btn {
+    background-color: #17a2b8;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    width: 150px;
+    height: 50px;
+    box-shadow: 0 0 10px rgb(0 50 0/0.3);
+    transition: 0.3s;
+  }
+
+
+  .btn:hover {
+    background-color: #138ea1;
+    color: white;
+  }
+
+
+  .btn:focus {
+    outline: none;
+  }
+
+
+  .main-title {
+    margin: 0 auto 30px;
+    border: 2px solid black;
+    padding: 10px 20px;
+    font-size: 30px;
+    width: fit-content;
+    position: relative;
+    z-index: 1;
+    transition: 0.3s;
+    text-transform: uppercase;
+  }
+
+
+  .main-title::before,
+  .main-title::after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background-color: #007bff;
+    position: absolute;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .main-title::before {
+    left: -30px;
+  }
+
+  .main-title::after {
+    right: -30px;
+  }
+
+  .main-title:hover::before {
+    z-index: -1;
+    animation: left-move 0.5s linear forwards;
+  }
+
+  .main-title:hover::after {
+    z-index: -1;
+    animation: right-move 0.5s linear forwards;
+  }
+
+  .main-title:hover {
+    color: white;
+    border: 2px solid white;
+    transition-delay: 0.5s;
+
+
+  }
+
+  html {
+
+    scroll-behavior: smooth;
+
+  }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #eee;
+
+  }
+
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Small */
+  @media (min-width:768px) {
+    .container {
+      width: 750px;
+    }
+  }
+
+
+  /* Medium */
+  @media (min-width:992px) {
+    .container {
+      width: 950px;
+    }
+  }
+
+
+
+  /* Large */
+  @media (min-width:1200px) {
+    .container {
+      width: 1170px;
+    }
+  }
+
+  /* End Globle Rules */
+
+  /* Start Header */
+
+header {
+    position: static;
+    left: 0;
+    top: 0;
+    background-color: var(--cyan);
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .3);
+    height: 10vh;
+    z-index: 1000;
+  }
+
+  nav {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+
+  nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+
+  nav ul li {
+    padding: 10px 15px;
+    transition: var(--main-transition);
+    min-width: fit-content;
+    max-width: 100%;
+    border-radius: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+
+  }
+
+  nav ul li a {
+    color: black;
+    white-space: nowrap;
+    font-size: 18px;
+    font-weight: 600;
+    transition: var(--main-transition);
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+  }
+
+
+  nav ul li:hover,
+  nav ul li.active {
+    background-color: var(--primary);
+  }
+
+
+  /* End Header */
+  
+
+  /* Start Details Section */
+
+  .details {
+
+    width: 70%;
+    height: calc(88vh - 120px);
+    margin: 60px auto;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgb(0 50 0 / 0.2);
+
+  }
+
+  /* modification */
+  .details .items {
+
+    padding: 15px;
+    margin-bottom: 6px;
+    margin-top: 6px;
+
+  }
+
+  .details .items span {
+
+    font-weight: bold;
+    min-width: 140px;
+    margin-right: 10px;
+    text-align: start;
+    line-height: 30px;
+    white-space: nowrap;
+
+  }
+
+  /* modification */
+
+
+  .details .items span:nth-child(2) {
+
+    padding: 10px 20px;
+    display: flex;
+    align-items:initial;
+    width: fit-content;
+    height: 30px;
+    color: red;
+    border-radius: 6px;
+
+  }
+
+  .results .result-box {
+
+    background-color: white;
+    display: flex;
+    padding: 10px;
+    /* modification */
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .results .result-box .result-name {
+
+    font-weight: bold;
+    width: 100%;
+    text-align: start;
+    line-height: 30px;
+    position: relative;
+
+
+  }
+
+  .results .result-box .result-progress {
+
+    height: 30px;
+    width: 100%;
+    background-color: #f6f6f6;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+
+  }
+
+  .results .result-name .before {
+
+    padding: 5px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 3px;
+    top: 0;
+    background-color: #4173a9;
+    width: 30px;
+    height: 30px;
+    color: white;
+    border-radius: 6px;
+
+  }
+
+  .results .result-box .result-progress span {
+
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0%;
+    height: 100%;
+    background-color: #007bff;
+    transition: all 0.5s;
+
+  }
+
+  /* Start Responsive Details Section */
+
+  @media (max-width:500px) {
+
+    .details {
+
+      width: 90%;
+    }
+
+
+    .details .items span:nth-child(2) {
+
+
+      margin-left: 4px;
+
+    }
+
+  }
+
+  /* End Responsive Details Section */
+
+  /* End  Details Section */
+
+
+
+  .content {
+    background-color: #ddd;
+
+  }
+
+  .content>div {
+    padding: 20px;
+
+  }
+
+  .content>div:not(:first-child) {
+    display: none;
+  }
+
+
+
+  /* Start inc and dec */
+
+  .progression {
+    width: 300px;
+    text-align: center;
+  }
+
+  p.progress-text {
+    font-weight: bold;
+  }
+
+  .progress-container {
+    display: block;
+    background-color: #f4f1ea;
+    height: 25px;
+  }
+
+  .progress-bar {
+    background-color: black;
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s;
+  }
+
+  .config-cache label {
+
+    color: black;
+    font-weight: bold;
+    white-space: nowrap;
+    padding: 10px 0;
+    font-size: 23px;
+
+  }
+
+  .slider {
+
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: brown;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    cursor: pointer;
+
+  }
+
+  .slider::-webkit-slider-thumb {
+
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+
+  }
+
+
+  .config-cache div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+  }
+
+  .config-cache .slider {
+
+    flex: 1;
+
+  }
+
+  .config-cache span {
+
+    font-size: 22px;
+    width: 200px;
+    padding: 3px;
+    ;
+    font-weight: bold;
+    padding: 10px;
+    color: #007bff;
+  }
+
+
+
+
+  /* con */
+  .config {
+
+    background-color: white;
+    max-width: 950px;
+    height: calc(88vh - 120px);
+    margin: 60px auto;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgb(0 50 0 / 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 100px;
+
+  }
+
+
+
+  .config form {
+
+    width: 50%;
+    position: relative;
+    height: 100%;
+    padding-left: 20px;
+
+  }
+
+  .config form div label {
+
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 5px;
+    display: block;
+    color:#007bff;
+    white-space: nowrap;
+  }
+
+  .config form .config-cache label {
+
+    color: black;
+    font-weight: bold;
+    white-space: nowrap;
+    padding: 10px 0;
+    font-size: 23px;
+
+  }
+
+
+
+  .config form .policy p {
+    white-space: nowrap;
+    font-size: 23px;
+    font-weight: bold;
+    padding-top: 25px;
+    color: black;
+    margin-bottom: 15px;
+  }
+
+
+  .config form .policy .radio {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+  }
+
+
+  .config form .policy .radio label {
+    margin-left: 10px;
+    cursor: pointer;
+    color: gray;
+  }
+
+
+  .config form .policy .radio input[type="radio"]:checked+label {
+    color: #007bff;
+  }
+
+
+  .config form .policy .radio input {
+    padding: 5px 0;
+    cursor: pointer;
+  }
+
+
+  .config form button {
+    margin-bottom: 20px;
+    margin-top: 25px;
+  }
+
+  .config form .btn:last-child {
+
+    background-color: #e4071d;
+    width: fit-content;
+
+  }
+
+  .config form .btn:last-child:hover {
+
+    background-color: red;
+  }
+
+  .config form .sep {
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  /* Start cache setting */
+.cache-setting {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+}
+
+.cache-setting .card {
+    width: 90%;
+    height: 90%;
+    padding: 20px;
+    background-color: var(--info);
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ddd;
+}
+
+.cache-setting form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.cache-setting .policy {
+    display: flex;
+    align-items: center;
+    width: 70%;
+}
+
+.cache-setting .policy p {
+    color: var(--white);
+    font-size: 22px;
+    margin-right: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+    margin-bottom: 15px;
+}
+
+.cache-setting .policy select {
+    flex: 1;
+    font-size: 20px;
+    height: 50px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+
+}
+
+.cache-setting .policy select:hover {
+    background-color: var(--blue);
+    color: var(--light);
+}
+
+.cache-setting .policy select:hover option {
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+.cache-setting .policy select option {
+    color: var(--dark);
+    font-weight: 400;
+
+}
+
+.cache-setting .policy select:focus {
+    outline: none;
+}
+
+.cache-setting .capacity {
+    display: flex;
+    align-items: center;
+    width: 70%;
+}
+
+.cache-setting .capacity label {
+    color: var(--white);
+    font-size: 22px;
+    margin-right: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.cache-setting .capacity input {
+    flex: 1;
+}
+
+.cache-setting .capacity span {
+    color: var(--dark);
+    font-size: 22px;
+    margin-left: 15px;
+    font-weight: 700;
+    background-color: var(--light);
+    padding: 5px;
+    border-radius: 6px;
+
+}
+
+.cache-setting .btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+}
+
+/* End cache setting */
+
+
+
+

@@ -10,7 +10,7 @@ setInterval(() => {
     });
     $.ajax({
         method: 'POST',
-        url: '/cache-status',
+        url: 'admin/cache-status',
         data: data,
         contentType: false,
         processData: false,
@@ -23,5 +23,3 @@ setInterval(() => {
         }
     });
 }, 5 * 1000)
-
-
