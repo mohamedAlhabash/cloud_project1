@@ -15,11 +15,8 @@ return new class extends Migration
     {
         Schema::create('statistics', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('num_items');
-            $table->unsignedDouble('current_capacity');
-            $table->unsignedInteger('requests_number');
-            $table->unsignedFloat('miss_rate');
-            $table->unsignedFloat('hit_rate');
+            $table->unsignedDouble('max_miss_rate');
+            $table->unsignedDouble('min_miss_rate');
             $table->timestamps();
         });
     }

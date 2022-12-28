@@ -23,8 +23,23 @@
                 <li class="{{ request()->routeIs('index') ? 'active' : '' }}  "><a href="{{route('index')}}">Upload</a></li>
                 <li class="{{ request()->routeIs('image') ? 'active' : '' }}  "><a href="{{route('image')}}">Images</a></li>
                 <li class="{{ request()->routeIs('keys') ? 'active' : '' }}  "><a href="{{route('keys')}}">Keys</a></li>
+                @if(auth()->user())
                 <li class="{{ request()->routeIs('cache-config') ? 'active' : '' }}  "><a href="{{route('cache-config')}}">Cache Setting </a></li>
                 <li class="{{ request()->routeIs('cacheStatus') ? 'active' : '' }}  "><a href="{{route('cacheStatus')}}">Statistics</a></li>
+                <li class="">
+                    <div class="text-white" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+                @endif
             </ul>
         </nav>
     </header>
@@ -32,7 +47,7 @@
     @yield('content')
     <script src="{{ asset('backend/js/main.js') }}"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="{{ asset('build/assets/app.afe1e09a.js') }}"></script>
+    <script src="{{ asset('build/assets/app.6bc34d9d.js') }}"></script>
     @yield('script')
 </body>
 
